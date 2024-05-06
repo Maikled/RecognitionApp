@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "RecognitionApp (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "RecognitionApp (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
