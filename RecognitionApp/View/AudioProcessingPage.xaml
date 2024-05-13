@@ -9,14 +9,133 @@
     mc:Ignorable="d">
 
     <Page.Resources>
+        <SolidColorBrush x:Key="MediaTransportControlsPanelBackground" Color="Transparent"/>
+
+        <Style x:Key="pageStackPanelStyle" TargetType="StackPanel">
+            <Setter Property="Spacing" Value="0"/>
+        </Style>
+        <Style x:Key="audioStackPanelStyle" TargetType="StackPanel">
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Spacing" Value="20"/>
+            <!--<Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="{ThemeResource CardBackgroundFillColorSecondaryBrush}" Offset="-20"/>
+                        <GradientStop Color="White" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>-->
+        </Style>
+        <Style x:Key="fileNameStackPanel" TargetType="StackPanel">
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="Spacing" Value="40"/>
+        </Style>
         <Style x:Key="MediaPlayerElementStyle" TargetType="MediaPlayerElement">
             <Setter Property="AutoPlay" Value="False"/>
-            <Setter Property="Width" Value="400"/>
-            <Setter Property="Height" Value="100"/>
+            <Setter Property="AreTransportControlsEnabled" Value="True"/>
         </Style>
+        <Style x:Key="mediaTransportControlsStyle" TargetType="MediaTransportControls" BasedOn="{StaticResource DefaultMediaTransportControlsStyle}">
+            <Setter Property="IsCompact" Value="True"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="Height" Value="Auto"/>
+            <Setter Property="MaxWidth" Value="-1"/>
+            <Setter Property="MaxHeight" Value="-1"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="IsZoomButtonVisible" Value="False"/>
+            <Setter Property="IsZoomEnabled" Value="False"/>
+        </Style>
+        <Style x:Key="infoBarStyle" TargetType="InfoBar">
+            <Setter Property="IsOpen" Value="True"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="IsClosable" Value="False"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        </Style>
+        <Style x:Key="speakerStackPanel" TargetType="StackPanel">
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Spacing" Value="10"/>
+            <!--<Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="LightGray"/>
+            <Setter Property="BorderThickness" Value="0.5"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Shadow">
+                <Setter.Value>
+                    <ThemeShadow/>
+                </Setter.Value>
+            </Setter>-->
+        </Style>
+
+
+        <DataTemplate x:Key="convertingInfoBarDataTemplate">
+            <InfoBar Severity="Informational" Style="{StaticResource infoBarStyle}" 
+                     Title="Конвертирование" 
+                     Message="Выполняется конвертирование аудиофайла в WAV формат">
+                <ProgressBar IsIndeterminate="True"/>
+            </InfoBar>
+        </DataTemplate>
+        <DataTemplate x:Key="transcribingInfoBarDataTemplate">
+            <InfoBar Severity="Informational" Style="{StaticResource infoBarStyle}" 
+                     Title="Транскрибирование"
+                     Message="Выполняется транскрибирование аудиофайла на сервере">
+                <ProgressBar IsIndeterminate="True"/>
+            </InfoBar>
+        </DataTemplate>
+        <DataTemplate x:Key="transcribedInfoBarDataTemplate">
+            <InfoBar Severity="Success" Style="{StaticResource infoBarStyle}" 
+                     Title="Транскрибирование"
+                     Message="Успешно завершено транскрибирование аудиофайла на сервере">
+            </InfoBar>
+        </DataTemplate>
+        <DataTemplate x:Key="failedInfoBarDataTemplate">
+            <InfoBar Severity="Error" Style="{StaticResource infoBarStyle}" 
+                     Title="Ошибка обработки"
+                     Message="Обработка аудиофайла завершилась с ошибкой">
+                <InfoBar.ActionButton>
+                    <Button Content="Повтор"/>
+                </InfoBar.ActionButton>
+            </InfoBar>
+        </DataTemplate>
     </Page.Resources>
 
-    <StackPanel>
-
+    <StackPanel Style="{StaticResource pageStackPanelStyle}">
+        <StackPanel Style="{StaticResource audioStackPanelStyle}">
+            <StackPanel Style="{StaticResource fileNameStackPanel}">
+                <FontIcon Glyph="&#xF61F;" FontSize="70"/>
+                <TextBlock Style="{ThemeResource TitleLargeTextBlockStyle}" Text="{x:Bind _viewModel.FileRecognition.FileDisplayName}"/>
+            </StackPanel>
+            <MediaPlayerElement x:Name="audioPlayer" Style="{StaticResource MediaPlayerElementStyle}">
+                <MediaPlayerElement.TransportControls>
+                    <MediaTransportControls Style="{StaticResource mediaTransportControlsStyle}"/>
+                </MediaPlayerElement.TransportControls>
+            </MediaPlayerElement>
+        </StackPanel>
+        <StackPanel Padding="10" Spacing="20">
+            <ContentControl x:Name="statusContentControl"/>
+            <ScrollViewer>
+                <ItemsControl x:Name="recognitionResultsItemsControl" ItemsSource="{x:Bind _viewModel.FileRecognition.RecognitionResult.DisplayRecognitionResults}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Style="{StaticResource speakerStackPanel}" Loaded="StackPanel_Loaded">
+                                <TextBlock Text="{Binding CurrentSpeaker}" Style="{ThemeResource BodyStrongTextBlockStyle}"/>
+                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Start}"/>
+                                        <TextBlock Text="-"/>
+                                        <TextBlock Text="{Binding End}"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding Text}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Spacing="30"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
+        </StackPanel>
     </StackPanel>
 </Page>

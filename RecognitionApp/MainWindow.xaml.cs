@@ -1,9 +1,5 @@
-using GrpcLibrary.Services;
 using Microsoft.UI.Xaml;
-using RecognitionApp.Model.Converters;
-using RecognitionApp.Properties;
 using RecognitionApp.View;
-using System.IO;
 
 namespace RecognitionApp
 {
@@ -11,23 +7,39 @@ namespace RecognitionApp
     {
         public MainWindow()
         {
+            SetTitleBar();
+            SetSystemBackdrop();
+
             this.InitializeComponent();
-        }
-
-        private async void myButton_Click(object sender, RoutedEventArgs e)
-        {
-            var speechProcessingService = new SpeechProcessingService("https://localhost:7000");
-
-            using(var fileStream = new FileStream(@"C:\Users\zyuly\source\repos\RecognitionServer\RecognitionServer\Files\multichannel.wav", FileMode.Open))
-            {
-                var result = await speechProcessingService.ProcessingAudioAsync(fileStream, UserSettings.Default.UserID, "multichannel.wav", UserSettings.Default.SpeechLanguage);
-                var convertedResults = SpeechProcessingConverter.ConvertProcessingResults(result);
-            }
         }
 
         private void MainWindowFrame_Loaded(object sender, RoutedEventArgs e)
         {
             MainWindowFrame.Content = new GeneralPage();
+        }
+
+        private void SetTitleBar()
+        {
+            this.ExtendsContentIntoTitleBar = true;
+            this.SetTitleBar(appTitleBar);
+        }
+
+        private void SetSystemBackdrop()
+        {
+            if (Microsoft.UI.Composition.SystemBackdrops.MicaController.IsSupported())
+            {
+                Microsoft.UI.Xaml.Media.MicaBackdrop micaBackdrop = new Microsoft.UI.Xaml.Media.MicaBackdrop();
+                micaBackdrop.Kind = Microsoft.UI.Composition.SystemBackdrops.MicaKind.Base;
+                this.SystemBackdrop = micaBackdrop;
+            }
+            else
+            {
+                if (Microsoft.UI.Composition.SystemBackdrops.DesktopAcrylicController.IsSupported())
+                {
+                    Microsoft.UI.Xaml.Media.DesktopAcrylicBackdrop DesktopAcrylicBackdrop = new Microsoft.UI.Xaml.Media.DesktopAcrylicBackdrop();
+                    this.SystemBackdrop = DesktopAcrylicBackdrop;
+                }
+            }
         }
     }
 }

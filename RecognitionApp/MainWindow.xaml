@@ -8,5 +8,33 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Frame x:Name="MainWindowFrame" Loaded="MainWindowFrame_Loaded"/>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" x:Name="appTitleBar">
+            <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Orientation" Value="Horizontal"/>
+                    <Setter Property="Padding" Value="5"/>
+                    <Setter Property="Spacing" Value="5"/>
+                    <Setter Property="Margin" Value="10,8,0,8"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+            </StackPanel.Style>
+            <FontIcon Glyph="&#xF61F;" FontSize="24"/>
+            <TextBlock Text="Recognition App">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="14"/>
+                        <Setter Property="FontFamily" Value="Segoe UI"/>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </StackPanel>
+
+        <Frame Grid.Row="1" x:Name="MainWindowFrame" Loaded="MainWindowFrame_Loaded"/>
+    </Grid>
 </Window>

@@ -3,33 +3,46 @@
     x:Class="RecognitionApp.View.GeneralPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:RecognitionApp.ViewModel"
+    xmlns:local="using:RecognitionApp.Model"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d">
 
     <Page.Resources>
         <Style x:Key="itemsControlStyle" TargetType="ItemsControl">
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
         </Style>
+        <Style x:Key="navigationViewItemStyle" TargetType="NavigationViewItem">
+            <Setter Property="Icon" Value="OpenFile"/>
+        </Style>
+
+        <DataTemplate x:Key="NavigationViewItemDataTemplate">
+            <NavigationViewItem Style="{StaticResource navigationViewItemStyle}"/>
+        </DataTemplate>
     </Page.Resources>
     
     <NavigationView x:Name="GeneralNavigationView" ItemInvoked="NavigationView_ItemInvoked" Loaded="NavigationView_Loaded" IsBackButtonVisible="Collapsed">
         <NavigationView.MenuItems>
             <NavigationViewItem Content="Новый диалог" Icon="Add" Tag="RecognitionApp.View.AudioRecordingPage"/>
             <NavigationViewItemHeader Content="История"/>
-            <!--<ItemsControl ItemsSource="{x:Bind _viewModel.RecognitionResults}" Style="{StaticResource itemsControlStyle}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <NavigationViewItem Content="{Binding FileName}" Icon="OpenFile"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>-->
         </NavigationView.MenuItems>
 
+        <!--<NavigationView.MenuItemTemplate>
+            <DataTemplate>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="20"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="{Binding Content}"/>
+                </Grid>
+            </DataTemplate>
+        </NavigationView.MenuItemTemplate>-->
+
         <ScrollViewer>
-            <Frame x:Name="ContentFrame" IsTabStop="True"/>
+            <Frame x:Name="ContentFrame"/>
         </ScrollViewer>
+        
     </NavigationView>
 </Page>

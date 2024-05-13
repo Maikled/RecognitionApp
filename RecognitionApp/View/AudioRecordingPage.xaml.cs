@@ -56,6 +56,7 @@ namespace RecognitionApp.View
                 var fileRecognition = new FileRecognition();
                 fileRecognition.ID = fileId;
                 fileRecognition.FileName = savedStorageFile.Name;
+                fileRecognition.FileDisplayName = savedStorageFile.DisplayName;
                 fileRecognition.LocalFilePath = savedStorageFile.Path;
                 fileRecognition.FileProcessingState = FileProcessingState.Created;
                 fileRecognition.FileCreate = DateTime.Now;

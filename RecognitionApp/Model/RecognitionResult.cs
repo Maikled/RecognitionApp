@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
+using System.Collections.ObjectModel;
 
 namespace RecognitionApp.Model
 {
-    public class RecognitionResult
+    public class RecognitionResult : ObservableObject
     {
-        public Guid ID { get; }
-        public IEnumerable<RecognitionResultSpeaker> RecognitionResults { get; }
-        public int StatusCode { get; }
-        public string ErrorMessage { get; }
-
-        public RecognitionResult(Guid id, IEnumerable<RecognitionResultSpeaker> recognitionResults, int statusCode, string errorMessage)
-        {
-            ID = id;
-            RecognitionResults = recognitionResults;
-            StatusCode = statusCode;
-            ErrorMessage = errorMessage;
-        }
+        public Guid ID { get; set; }
+        public ObservableCollection<RecognitionResultSpeaker> RecognitionResults { get; set; }
+        public ObservableCollection<DisplayRecognitionResultSpeaker> DisplayRecognitionResults { get; set; }
+        public int StatusCode { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

@@ -1,3 +1,4 @@
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using RecognitionApp.Model;
 using RecognitionApp.ViewModel;
@@ -31,7 +32,7 @@ namespace RecognitionApp.View
                     if (item is FileRecognition fileRecognition)
                     {
                         var newNavigationViewItem = new NavigationViewItem();
-                        newNavigationViewItem.Content = fileRecognition.FileName;
+                        newNavigationViewItem.Content = fileRecognition.FileDisplayName;
                         newNavigationViewItem.Icon = new SymbolIcon(Symbol.OpenFile);
                         newNavigationViewItem.Tag = item;
                         GeneralNavigationView.MenuItems.Add(newNavigationViewItem);

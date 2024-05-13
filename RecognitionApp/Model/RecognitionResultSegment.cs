@@ -4,16 +4,19 @@ namespace RecognitionApp.Model
 {
     public class RecognitionResultSegment
     {
-        public string Text { get; }
-        public TimeSpan Start { get; }
-        public TimeSpan End { get; }
-        public TimeSpan Duration { get { return End - Start; } }
+        public string Text { get; set; }
+        public TimeSpan Start { get; set; }
+        public TimeSpan End { get; set; }
+        public TimeSpan Duration { get; set; }
 
-        public RecognitionResultSegment(string text, TimeSpan start, TimeSpan end)
+        public RecognitionResultSegment() { }
+
+        public RecognitionResultSegment(string text, TimeSpan start, TimeSpan end) : this()
         {
             Text = text;
             Start = start;
             End = end;
+            Duration = End - Start;
         }
     }
 }

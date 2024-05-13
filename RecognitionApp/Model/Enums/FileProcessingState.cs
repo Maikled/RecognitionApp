@@ -4,6 +4,9 @@
     {
         Created,
         Uploaded,
-        Transcribed
+        Converting,
+        Transcribing,
+        Transcribed,
+        Failed
     }
 }
