@@ -37,6 +37,20 @@
             <Setter Property="Padding" Value="20"/>
             <Setter Property="CornerRadius" Value="10"/>
         </Style>
+        <Style x:Key="teachingTipStyle" TargetType="TeachingTip">
+            <Setter Property="PreferredPlacement" Value="Bottom"/>
+            <Setter Property="IsOpen" Value="False"/>
+            <Setter Property="IsLightDismissEnabled" Value="True"/>
+        </Style>
+        <Style x:Key="teachingTipStackPanelStyle" TargetType="StackPanel">
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="Spacing" Value="10"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="recordingAppButtonStyle" TargetType="AppBarButton">
+            <Setter Property="LabelPosition" Value="Collapsed"/>
+        </Style>
     </Page.Resources>
     
     <Grid Style="{StaticResource gridStyle}">
@@ -53,7 +67,14 @@
         
         <StackPanel Grid.Row="1" Style="{StaticResource selectorStackPanelStyle}">
             <Button Content="Выбрать аудиофайл" Style="{StaticResource selectorButtonStyle}" Command="{x:Bind OpenAudioFileCommand}"/>
-            <Button Content="Записать аудио" Style="{StaticResource selectorButtonStyle}" Command="{x:Bind RecordingAudioFileCommand}"/>
+            <Button Content="Записать аудио" Style="{StaticResource selectorButtonStyle}" Command="{x:Bind OpenRecordingPanelCommand}" x:Name="recordingButton"/>
+            <TeachingTip Style="{StaticResource teachingTipStyle}" x:Name="recordingTeachingTip" Target="{x:Bind recordingButton}">
+                <StackPanel Style="{StaticResource teachingTipStackPanelStyle}">
+                    <AppBarButton Icon="Microphone" Style="{StaticResource recordingAppButtonStyle}"/>
+                    <AppBarButton Icon="Pause" Style="{StaticResource recordingAppButtonStyle}"/>
+                    <AppBarButton Icon="Stop" Style="{StaticResource recordingAppButtonStyle}"/>
+                </StackPanel>
+            </TeachingTip>
         </StackPanel>
     </Grid>
 </Page>

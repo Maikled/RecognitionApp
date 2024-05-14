@@ -37,9 +37,15 @@ namespace RecognitionApp.View
         }
 
         [RelayCommand]
+        public void OpenRecordingPanel()
+        {
+            recordingTeachingTip.IsOpen = !recordingTeachingTip.IsOpen;
+        }
+
+        [RelayCommand]
         public async Task RecordingAudioFile()
         {
-
+            
         }
 
         private async void AddFileRecognition(StorageFile storageFile)
