@@ -5,6 +5,7 @@ using RecognitionApp.Model.Converters;
 using RecognitionApp.Model.Enums;
 using RecognitionApp.Properties;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -29,7 +30,7 @@ namespace RecognitionApp.ViewModel
                     {
                         FileProcessingStateChanged?.Invoke(FileRecognition, FileProcessingState.Transcribing);
 
-                        var speechProcessingService = new SpeechProcessingService("https://localhost:7000");
+                        var speechProcessingService = new SpeechProcessingService($"https://{UserSettings.Default.ServerAddress}");
                         SpeechProcessingClient.Response result;
 
                         var file = await StorageFile.GetFileFromPathAsync(FileRecognition.LocalFilePath);
@@ -55,6 +56,7 @@ namespace RecognitionApp.ViewModel
                     }
                     catch (Exception ex)
                     {
+                        Debug.WriteLine(ex);
                         FileProcessingStateChanged?.Invoke(FileRecognition, FileProcessingState.Failed);
                     }
                 }

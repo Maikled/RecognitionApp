@@ -53,7 +53,7 @@ namespace RecognitionApp.View
         {
             if(args.IsSettingsInvoked)
             {
-
+                ContentFrame.Navigate(typeof(SettingsPage), null, args.RecommendedNavigationTransitionInfo);
             }
             else
             {

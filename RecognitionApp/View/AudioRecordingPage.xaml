@@ -51,6 +51,12 @@
         <Style x:Key="recordingAppButtonStyle" TargetType="AppBarButton">
             <Setter Property="LabelPosition" Value="Collapsed"/>
         </Style>
+        <Style x:Key="recordingStackPanel" TargetType="StackPanel">
+            <Setter Property="Orientation" Value="Vertical"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Spacing" Value="10"/>
+        </Style>
     </Page.Resources>
     
     <Grid Style="{StaticResource gridStyle}">
@@ -69,13 +75,13 @@
             <Button Content="Выбрать аудиофайл" Style="{StaticResource selectorButtonStyle}" Command="{x:Bind OpenAudioFileCommand}"/>
             <Button Content="Записать аудио" Style="{StaticResource selectorButtonStyle}" Command="{x:Bind OpenRecordingPanelCommand}" x:Name="recordingButton"/>
             <TeachingTip Style="{StaticResource teachingTipStyle}" x:Name="recordingTeachingTip" Target="{x:Bind recordingButton}">
-                <StackPanel>
+                <StackPanel Style="{StaticResource recordingStackPanel}">
                     <StackPanel Style="{StaticResource teachingTipStackPanelStyle}">
-                        <AppBarButton Icon="Microphone" Style="{StaticResource recordingAppButtonStyle}" Command="{x:Bind RecordingAudioStartCommand}"/>
+                        <AppBarButton Icon="Microphone" Label="Записать" Style="{StaticResource recordingAppButtonStyle}" Command="{x:Bind RecordingAudioStartCommand}" x:Name="startRecordingButton" IsEnabled="True"/>
                         <!--<AppBarButton Icon="Pause" Style="{StaticResource recordingAppButtonStyle}"/>-->
-                        <AppBarButton Icon="Stop" Style="{StaticResource recordingAppButtonStyle}" Command="{x:Bind RecordingAudioStopCommand}"/>
+                        <AppBarButton Icon="Stop" Label="Остановить" Style="{StaticResource recordingAppButtonStyle}" Command="{x:Bind RecordingAudioStopCommand}" x:Name="stopRecordingButton" IsEnabled="False"/>
                     </StackPanel>
-                    <TextBlock x:Name="recordingTimeTextBlock"/>
+                    <TextBlock x:Name="recordingTimeTextBlock" HorizontalTextAlignment="Center"/>
                 </StackPanel>
             </TeachingTip>
         </StackPanel>

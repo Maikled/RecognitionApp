@@ -110,7 +110,7 @@
                 </MediaPlayerElement.TransportControls>
             </MediaPlayerElement>
         </StackPanel>
-        <StackPanel Padding="10" Spacing="20">
+        <StackPanel Padding="20" Spacing="20">
             <ContentControl x:Name="statusContentControl"/>
             <ScrollViewer>
                 <ItemsControl x:Name="recognitionResultsItemsControl" ItemsSource="{x:Bind _viewModel.FileRecognition.RecognitionResult.DisplayRecognitionResults}">

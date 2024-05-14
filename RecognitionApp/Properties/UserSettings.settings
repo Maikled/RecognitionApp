@@ -8,5 +8,8 @@
     <Setting Name="SpeechLanguage" Type="System.String" Scope="User">
       <Value Profile="(Default)">Russian</Value>
     </Setting>
+    <Setting Name="ServerAddress" Type="System.String" Scope="User">
+      <Value Profile="(Default)">10.0.0.2:7000</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -49,6 +49,9 @@ namespace RecognitionApp.View
         [RelayCommand]
         public void RecordingAudioStart()
         {
+            startRecordingButton.IsEnabled = false;
+            stopRecordingButton.IsEnabled = true;
+
             if(_waveIn == null)
             {
                 _waveIn = new WaveIn();
@@ -76,15 +79,18 @@ namespace RecognitionApp.View
                 var storageFile = await StorageFile.GetFileFromPathAsync(_waveFileWriter.Filename);
                 AddFileRecognition(storageFile);
 
-                _waveFileWriter = null;
                 _waveFileWriter.Dispose();
+                _waveFileWriter = null;
             }
+
+            startRecordingButton.IsEnabled = true;
+            stopRecordingButton.IsEnabled = false;
         }
 
         private void _waveIn_DataAvailable(object sender, WaveInEventArgs e)
         {
             _waveFileWriter.Write(e.Buffer, 0, e.BytesRecorded);
-            recordingTimeTextBlock.Text = _waveFileWriter.TotalTime.ToString();
+            recordingTimeTextBlock.Text = _waveFileWriter.TotalTime.ToString(@"hh\:mm\:ss");
         }
 
         private async void AddFileRecognition(StorageFile storageFile)

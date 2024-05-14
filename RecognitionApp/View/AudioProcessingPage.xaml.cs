@@ -27,7 +27,11 @@ namespace RecognitionApp.View
 
                 SetMediaSource(fileRecognition);
                 await _viewModel.RunningSpeechProcess();
-                recognitionResultsItemsControl.ItemsSource = fileRecognition.RecognitionResult.DisplayRecognitionResults;
+
+                if(fileRecognition.RecognitionResult != null)
+                {
+                    recognitionResultsItemsControl.ItemsSource = fileRecognition.RecognitionResult.DisplayRecognitionResults;
+                }
             }
         }
 
