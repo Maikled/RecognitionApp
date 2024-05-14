@@ -69,10 +69,13 @@
             <Button Content="Выбрать аудиофайл" Style="{StaticResource selectorButtonStyle}" Command="{x:Bind OpenAudioFileCommand}"/>
             <Button Content="Записать аудио" Style="{StaticResource selectorButtonStyle}" Command="{x:Bind OpenRecordingPanelCommand}" x:Name="recordingButton"/>
             <TeachingTip Style="{StaticResource teachingTipStyle}" x:Name="recordingTeachingTip" Target="{x:Bind recordingButton}">
-                <StackPanel Style="{StaticResource teachingTipStackPanelStyle}">
-                    <AppBarButton Icon="Microphone" Style="{StaticResource recordingAppButtonStyle}"/>
-                    <AppBarButton Icon="Pause" Style="{StaticResource recordingAppButtonStyle}"/>
-                    <AppBarButton Icon="Stop" Style="{StaticResource recordingAppButtonStyle}"/>
+                <StackPanel>
+                    <StackPanel Style="{StaticResource teachingTipStackPanelStyle}">
+                        <AppBarButton Icon="Microphone" Style="{StaticResource recordingAppButtonStyle}" Command="{x:Bind RecordingAudioStartCommand}"/>
+                        <!--<AppBarButton Icon="Pause" Style="{StaticResource recordingAppButtonStyle}"/>-->
+                        <AppBarButton Icon="Stop" Style="{StaticResource recordingAppButtonStyle}" Command="{x:Bind RecordingAudioStopCommand}"/>
+                    </StackPanel>
+                    <TextBlock x:Name="recordingTimeTextBlock"/>
                 </StackPanel>
             </TeachingTip>
         </StackPanel>
