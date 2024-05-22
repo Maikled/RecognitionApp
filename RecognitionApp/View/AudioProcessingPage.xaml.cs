@@ -1,10 +1,12 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Navigation;
 using RecognitionApp.Model;
 using RecognitionApp.Model.Enums;
 using RecognitionApp.ViewModel;
 using System;
+using System.Linq;
 using Windows.Media.Core;
 
 namespace RecognitionApp.View
@@ -30,7 +32,7 @@ namespace RecognitionApp.View
 
                 if(fileRecognition.RecognitionResult != null)
                 {
-                    recognitionResultsItemsControl.ItemsSource = fileRecognition.RecognitionResult.DisplayRecognitionResults;
+                    recognitionResultsItemsControl.ItemsSource = fileRecognition.RecognitionResult.RecognitionResults;
                 }
             }
         }
@@ -66,6 +68,22 @@ namespace RecognitionApp.View
         private void StackPanel_Loaded(object sender, RoutedEventArgs e)
         {
             (sender as StackPanel).Translation += new System.Numerics.Vector3(0, 0, 16);
+        }
+
+        private void RichTextBlock_Loaded(object sender, RoutedEventArgs e)
+        {
+            var richTextBlock = sender as RichTextBlock;
+            richTextBlock.Blocks.Clear();
+
+            
+
+            var dataContext = (richTextBlock.DataContext as RecognitionResultSpeaker);
+            foreach(var item in dataContext.ResultSegments)
+            {
+                var paragraph = new Paragraph();
+                paragraph.Inlines.Add(new Run() { Text = item.Text });
+                richTextBlock.Blocks.Add(paragraph);
+            }
         }
     }
 }

@@ -49,7 +49,7 @@ namespace RecognitionApp.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("10.0.0.2:7000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("localhost:7000")]
         public string ServerAddress {
             get {
                 return ((string)(this["ServerAddress"]));

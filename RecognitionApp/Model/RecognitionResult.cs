@@ -8,7 +8,7 @@ namespace RecognitionApp.Model
     {
         public Guid ID { get; set; }
         public ObservableCollection<RecognitionResultSpeaker> RecognitionResults { get; set; }
-        public ObservableCollection<DisplayRecognitionResultSpeaker> DisplayRecognitionResults { get; set; }
+        //public ObservableCollection<DisplayRecognitionResultSpeaker> DisplayRecognitionResults { get; set; }
         public int StatusCode { get; set; }
         public string ErrorMessage { get; set; }
     }

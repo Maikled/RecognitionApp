@@ -6,6 +6,8 @@
     xmlns:local="using:RecognitionApp.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:RecognitionApp.Model"
+    xmlns:converters="using:RecognitionApp.View.Converters"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -17,14 +19,6 @@
         <Style x:Key="audioStackPanelStyle" TargetType="StackPanel">
             <Setter Property="Padding" Value="20"/>
             <Setter Property="Spacing" Value="20"/>
-            <!--<Setter Property="Background">
-                <Setter.Value>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                        <GradientStop Color="{ThemeResource CardBackgroundFillColorSecondaryBrush}" Offset="-20"/>
-                        <GradientStop Color="White" Offset="1"/>
-                    </LinearGradientBrush>
-                </Setter.Value>
-            </Setter>-->
         </Style>
         <Style x:Key="fileNameStackPanel" TargetType="StackPanel">
             <Setter Property="Orientation" Value="Horizontal"/>
@@ -55,15 +49,17 @@
         <Style x:Key="speakerStackPanel" TargetType="StackPanel">
             <Setter Property="Padding" Value="10"/>
             <Setter Property="Spacing" Value="10"/>
-            <!--<Setter Property="Background" Value="White"/>
-            <Setter Property="BorderBrush" Value="LightGray"/>
-            <Setter Property="BorderThickness" Value="0.5"/>
+            <Setter Property="Background" Value="{ThemeResource LayerOnMicaBaseAltFillColorDefaultBrush}"/>
+            <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultSolidBrush}"/>
+            <Setter Property="BorderThickness" Value="0.4"/>
             <Setter Property="CornerRadius" Value="10"/>
-            <Setter Property="Shadow">
-                <Setter.Value>
-                    <ThemeShadow/>
-                </Setter.Value>
-            </Setter>-->
+        </Style>
+        <Style x:Key="speakerInfoStackPanelStyle" TargetType="StackPanel">
+            <Setter Property="Spacing" Value="5"/>
+        </Style>
+        <Style x:Key="textTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="TextAlignment" Value="Left"/>
         </Style>
 
 
@@ -113,19 +109,30 @@
         <StackPanel Padding="20" Spacing="20">
             <ContentControl x:Name="statusContentControl"/>
             <ScrollViewer>
-                <ItemsControl x:Name="recognitionResultsItemsControl" ItemsSource="{x:Bind _viewModel.FileRecognition.RecognitionResult.DisplayRecognitionResults}">
+                <ItemsControl x:Name="recognitionResultsItemsControl" ItemsSource="{x:Bind _viewModel.FileRecognition.RecognitionResult.RecognitionResults}">
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate x:DataType="models:RecognitionResultSpeaker">
                             <StackPanel Style="{StaticResource speakerStackPanel}" Loaded="StackPanel_Loaded">
-                                <TextBlock Text="{Binding CurrentSpeaker}" Style="{ThemeResource BodyStrongTextBlockStyle}"/>
-                                <StackPanel Orientation="Horizontal" Spacing="10">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Start}"/>
+                                <StackPanel Style="{StaticResource speakerInfoStackPanelStyle}">
+                                    <TextBlock Text="{Binding Speaker}" Style="{ThemeResource BodyStrongTextBlockStyle}"/>
+                                    <StackPanel Orientation="Horizontal" Spacing="5">
+                                        <TextBlock Text="{x:Bind converters:FunctionConverters.ConvertTimeSpanToString(Start)}"/>
                                         <TextBlock Text="-"/>
-                                        <TextBlock Text="{Binding End}"/>
+                                        <TextBlock Text="{x:Bind converters:FunctionConverters.ConvertTimeSpanToString(End)}"/>
                                     </StackPanel>
-                                    <TextBlock Text="{Binding Text}"/>
                                 </StackPanel>
+                                <ItemsControl ItemsSource="{x:Bind ResultSegments}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="models:RecognitionResultSegment">
+                                            <TextBlock Text="{x:Bind Text}" Style="{StaticResource textTextBlockStyle}"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Spacing="5"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

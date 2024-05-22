@@ -1,6 +1,5 @@
 ﻿using SpeechProcessingClient;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -19,31 +18,14 @@ namespace RecognitionApp.Model.Converters
                 new RecognitionResultSpeaker()
                 {
                     Speaker = p.CurrentSpeaker,
+                    Start = TimeSpan.FromMilliseconds(p.SegmentsData.Min(s => s.Start)),
+                    End = TimeSpan.FromMilliseconds(p.SegmentsData.Max(s => s.End)),
                     ResultSegments = new ObservableCollection<RecognitionResultSegment>(p.SegmentsData.Select(s =>
-                    new RecognitionResultSegment(s.Text, TimeSpan.FromMilliseconds(s.Start), TimeSpan.FromMilliseconds(s.End))))
+                    new RecognitionResultSegment(s.Text.Trim(), TimeSpan.FromMilliseconds(s.Start), TimeSpan.FromMilliseconds(s.End))))
                 })),
             };
 
-            recognitionResult.DisplayRecognitionResults = ConvertDisplayRecognitionResult(recognitionResult.RecognitionResults);
-
             return recognitionResult;
-        }
-
-        public static ObservableCollection<DisplayRecognitionResultSpeaker> ConvertDisplayRecognitionResult(IEnumerable<RecognitionResultSpeaker> recognitionResult)
-        {
-            var result = new ObservableCollection<DisplayRecognitionResultSpeaker>();
-            
-            foreach(var item in recognitionResult)
-            {
-                var speakerResult = new DisplayRecognitionResultSpeaker();
-                speakerResult.CurrentSpeaker = item.Speaker;
-                speakerResult.Start = item.ResultSegments.Min(s => s.Start).ToString("hh\\:mm\\:ss");
-                speakerResult.End = item.ResultSegments.Max(s => s.End).ToString("hh\\:mm\\:ss");
-                speakerResult.Text = string.Join("\n", item.ResultSegments.Select(s => s.Text));
-                result.Add(speakerResult);
-            }
-
-            return result;
         }
     }
 }
