@@ -1,19 +1,18 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Documents;
 using Microsoft.UI.Xaml.Navigation;
 using RecognitionApp.Model;
 using RecognitionApp.Model.Enums;
 using RecognitionApp.ViewModel;
 using System;
-using System.Linq;
+using System.Threading.Tasks;
 using Windows.Media.Core;
 
 namespace RecognitionApp.View
 {
     public sealed partial class AudioProcessingPage : Page
     {
-        private AudioProcessingViewModel _viewModel { get; set; } = new AudioProcessingViewModel(); 
+        public AudioProcessingViewModel ViewModel { get; set; } = new AudioProcessingViewModel(); 
 
         public AudioProcessingPage()
         {
@@ -24,16 +23,7 @@ namespace RecognitionApp.View
         {
             if(e.Parameter is FileRecognition fileRecognition)
             {
-                _viewModel.FileRecognition = fileRecognition;
-                _viewModel.FileProcessingStateChanged += _viewModel_FileProcessingStateChanged;
-
-                SetMediaSource(fileRecognition);
-                await _viewModel.RunningSpeechProcess();
-
-                if(fileRecognition.RecognitionResult != null)
-                {
-                    recognitionResultsItemsControl.ItemsSource = fileRecognition.RecognitionResult.RecognitionResults;
-                }
+                await LoadPageData(fileRecognition);
             }
         }
 
@@ -59,6 +49,20 @@ namespace RecognitionApp.View
             }
         }
 
+        private async Task LoadPageData(FileRecognition fileRecognition)
+        {
+            ViewModel.FileRecognition = fileRecognition;
+            ViewModel.FileProcessingStateChanged += _viewModel_FileProcessingStateChanged;
+
+            SetMediaSource(fileRecognition);
+            await ViewModel.RunningSpeechProcess();
+
+            if (fileRecognition.RecognitionResult != null)
+            {
+                recognitionResultsItemsControl.ItemsSource = fileRecognition.RecognitionResult.RecognitionResults;
+            }
+        }
+
         private void SetMediaSource(FileRecognition fileRecognition)
         {
             var mediaSource = MediaSource.CreateFromUri(new Uri(fileRecognition.LocalFilePath));
@@ -70,20 +74,9 @@ namespace RecognitionApp.View
             (sender as StackPanel).Translation += new System.Numerics.Vector3(0, 0, 16);
         }
 
-        private void RichTextBlock_Loaded(object sender, RoutedEventArgs e)
+        private async void ButtonRepeat_Click(object sender, RoutedEventArgs e)
         {
-            var richTextBlock = sender as RichTextBlock;
-            richTextBlock.Blocks.Clear();
-
-            
-
-            var dataContext = (richTextBlock.DataContext as RecognitionResultSpeaker);
-            foreach(var item in dataContext.ResultSegments)
-            {
-                var paragraph = new Paragraph();
-                paragraph.Inlines.Add(new Run() { Text = item.Text });
-                richTextBlock.Blocks.Add(paragraph);
-            }
+            await LoadPageData(ViewModel.FileRecognition);
         }
     }
 }

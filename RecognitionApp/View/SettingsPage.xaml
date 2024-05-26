@@ -31,7 +31,7 @@
                 <SymbolIcon Symbol="Globe"/>
             </controls:SettingsExpander.HeaderIcon>
 
-            <TextBox Text="{x:Bind ServerAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="TextBox_TextChanged"/>
+            <TextBox Text="{x:Bind ServerAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="TextBox_TextChanged_1"/>
 
             <controls:SettingsExpander.Items>
                 <Grid Padding="10" ColumnSpacing="10">
@@ -53,7 +53,7 @@
                 <SymbolIcon Symbol="People"/>
             </controls:SettingsCard.HeaderIcon>
 
-            <TextBox Text="{x:Bind UserId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="TextBox_TextChanged"/>
+            <TextBox Text="{x:Bind UserId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TextChanged="TextBox_TextChanged_2"/>
         </controls:SettingsCard>
 
         <controls:SettingsCard Header="Язык распознавания речи" Description="Используемый язык для распознавания произнесённой речи">
@@ -61,7 +61,7 @@
                 <FontIcon Glyph="&#xF2B7;"/>
             </controls:SettingsCard.HeaderIcon>
 
-            <ComboBox ItemsSource="{x:Bind AvailableSpeechLanguages}" SelectedIndex="{x:Bind CurrentSpeechLanguage, Converter={StaticResource EnumToIndexConverter}}"/>
+            <ComboBox ItemsSource="{x:Bind AvailableSpeechLanguages}" SelectedIndex="{x:Bind CurrentSpeechLanguage, Converter={StaticResource EnumToIndexConverter}}" SelectionChanged="ComboBox_SelectionChanged"/>
         </controls:SettingsCard>
     </StackPanel>
 </Page>

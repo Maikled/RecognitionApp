@@ -31,23 +31,16 @@ namespace RecognitionApp.View
             this.InitializeComponent();
         }
 
-        public void SaveSettings()
-        {
-            UserSettings.Default.Save();
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            SaveSettings();
-        }
-
         [RelayCommand]
         public async Task CheckConnectionServer()
         {
             try
             {
                 var pingSender = new Ping();
-                var response = await pingSender.SendPingAsync($"http://{ServerAddress}");
+                var uri = new Uri($"https://{ServerAddress}");
+                var address = uri.Scheme + "://" + uri.Host;
+
+                var response = await pingSender.SendPingAsync(address);
                 if (response != null)
                 {
                     if (response.Status == IPStatus.Success)
@@ -63,6 +56,36 @@ namespace RecognitionApp.View
             catch(Exception ex)
             {
                 Debug.WriteLine(ex);
+            }
+        }
+
+        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
+        {
+            var text = (sender as TextBox).Text;
+            if(!string.IsNullOrWhiteSpace(text))
+            {
+                UserSettings.Default.ServerAddress = text;
+                UserSettings.Default.Save();
+            }
+        }
+
+        private void TextBox_TextChanged_2(object sender, TextChangedEventArgs e)
+        {
+            var text = (sender as TextBox).Text;
+            if(Guid.TryParse(text, out var id))
+            {
+                UserSettings.Default.UserID = id;
+                UserSettings.Default.Save();
+            }
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var language = (sender as ComboBox).SelectedItem;
+            if(Enum.TryParse(typeof(SpeechLanguage), language.ToString(), out var result))
+            {
+                UserSettings.Default.SpeechLanguage = result.ToString();
+                UserSettings.Default.Save();
             }
         }
     }

@@ -4,7 +4,6 @@ using RecognitionApp.Model;
 using RecognitionApp.ViewModel;
 using System;
 using System.Linq;
-using Windows.Storage;
 
 namespace RecognitionApp.View
 {
@@ -33,8 +32,14 @@ namespace RecognitionApp.View
                 {
                     if (item is FileRecognition fileRecognition)
                     {
+                        var menuFlyout = new MenuFlyout();
+                        var menuFlyoutItem = new MenuFlyoutItem() { Text = "Удалить", Icon = new SymbolIcon(Symbol.Delete) };
+                        menuFlyoutItem.Click += MenuFlyoutItem_Click;
+                        menuFlyout.Items.Add(menuFlyoutItem);
+
                         var newNavigationViewItem = new NavigationViewItem();
-                        newNavigationViewItem.Style = this.Resources["navigationViewItemStyle"] as Style;
+                        newNavigationViewItem.Icon = new SymbolIcon(Symbol.OpenFile);
+                        newNavigationViewItem.ContextFlyout = menuFlyout;
                         newNavigationViewItem.Content = fileRecognition.FileDisplayName;
                         newNavigationViewItem.Tag = item;
                         newNavigationViewItem.DataContext = item;
@@ -106,6 +111,14 @@ namespace RecognitionApp.View
             var frameworkElement = sender as FrameworkElement;
             var recognitionResult = frameworkElement.DataContext as FileRecognition;
             await _viewModel.DeleteRecognitionResultAsync(recognitionResult);
+
+            if(ContentFrame.Content is AudioProcessingPage audioProcessingPage)
+            {
+                if(audioProcessingPage.ViewModel.FileRecognition == recognitionResult)
+                {
+                    ContentFrame.Navigate(typeof(AudioRecordingPage), _viewModel);
+                }
+            }
         }
     }
 }

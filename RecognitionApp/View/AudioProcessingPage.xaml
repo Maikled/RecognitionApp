@@ -45,7 +45,7 @@
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="IsClosable" Value="False"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            <Setter Property="Width" Value="5000"/>
+            <Setter Property="Width" Value="2000"/>
         </Style>
         <Style x:Key="speakerStackPanel" TargetType="StackPanel">
             <Setter Property="Padding" Value="10"/>
@@ -89,7 +89,7 @@
                      Title="Ошибка обработки"
                      Message="Обработка аудиофайла завершилась с ошибкой">
                 <InfoBar.ActionButton>
-                    <Button Content="Повтор"/>
+                    <Button Content="Повтор" Click="ButtonRepeat_Click"/>
                 </InfoBar.ActionButton>
             </InfoBar>
         </DataTemplate>
@@ -99,7 +99,7 @@
         <StackPanel Style="{StaticResource audioStackPanelStyle}">
             <StackPanel Style="{StaticResource fileNameStackPanel}">
                 <FontIcon Glyph="&#xF61F;" FontSize="70"/>
-                <TextBlock Style="{ThemeResource TitleLargeTextBlockStyle}" Text="{x:Bind _viewModel.FileRecognition.FileDisplayName}"/>
+                <TextBlock Style="{ThemeResource TitleLargeTextBlockStyle}" Text="{x:Bind ViewModel.FileRecognition.FileDisplayName}"/>
             </StackPanel>
             <MediaPlayerElement x:Name="audioPlayer" Style="{StaticResource MediaPlayerElementStyle}">
                 <MediaPlayerElement.TransportControls>
@@ -110,7 +110,7 @@
         <StackPanel Padding="20" Spacing="20">
             <ContentControl x:Name="statusContentControl"/>
             <ScrollViewer>
-                <ItemsControl x:Name="recognitionResultsItemsControl" ItemsSource="{x:Bind _viewModel.FileRecognition.RecognitionResult.RecognitionResults}">
+                <ItemsControl x:Name="recognitionResultsItemsControl" ItemsSource="{x:Bind ViewModel.FileRecognition.RecognitionResult.RecognitionResults}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="models:RecognitionResultSpeaker">
                             <StackPanel Style="{StaticResource speakerStackPanel}" Loaded="StackPanel_Loaded">
