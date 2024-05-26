@@ -14,35 +14,28 @@
         </Style>
         <Style x:Key="navigationViewItemStyle" TargetType="NavigationViewItem">
             <Setter Property="Icon" Value="OpenFile"/>
+            <Setter Property="ContextFlyout">
+                <Setter.Value>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Icon="Delete" Text="Удалить" Click="MenuFlyoutItem_Click"/>
+                    </MenuFlyout>
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <DataTemplate x:Key="NavigationViewItemDataTemplate">
             <NavigationViewItem Style="{StaticResource navigationViewItemStyle}"/>
         </DataTemplate>
     </Page.Resources>
-    
+
     <NavigationView x:Name="GeneralNavigationView" ItemInvoked="NavigationView_ItemInvoked" Loaded="NavigationView_Loaded" IsBackButtonVisible="Collapsed">
         <NavigationView.MenuItems>
             <NavigationViewItem Content="Новый диалог" Icon="Add" Tag="RecognitionApp.View.AudioRecordingPage"/>
             <NavigationViewItemHeader Content="История"/>
         </NavigationView.MenuItems>
 
-        <!--<NavigationView.MenuItemTemplate>
-            <DataTemplate>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="20"/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Text="{Binding Content}"/>
-                </Grid>
-            </DataTemplate>
-        </NavigationView.MenuItemTemplate>-->
-
         <ScrollViewer>
             <Frame x:Name="ContentFrame"/>
         </ScrollViewer>
-        
     </NavigationView>
 </Page>

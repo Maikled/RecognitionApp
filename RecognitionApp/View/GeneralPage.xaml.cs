@@ -3,6 +3,8 @@ using Microsoft.UI.Xaml.Controls;
 using RecognitionApp.Model;
 using RecognitionApp.ViewModel;
 using System;
+using System.Linq;
+using Windows.Storage;
 
 namespace RecognitionApp.View
 {
@@ -32,9 +34,10 @@ namespace RecognitionApp.View
                     if (item is FileRecognition fileRecognition)
                     {
                         var newNavigationViewItem = new NavigationViewItem();
+                        newNavigationViewItem.Style = this.Resources["navigationViewItemStyle"] as Style;
                         newNavigationViewItem.Content = fileRecognition.FileDisplayName;
-                        newNavigationViewItem.Icon = new SymbolIcon(Symbol.OpenFile);
                         newNavigationViewItem.Tag = item;
+                        newNavigationViewItem.DataContext = item;
                         GeneralNavigationView.MenuItems.Add(newNavigationViewItem);
                     }
                 }
@@ -44,7 +47,14 @@ namespace RecognitionApp.View
             {
                 foreach (var item in e.OldItems)
                 {
-
+                    if(item is FileRecognition fileRecognition)
+                    {
+                        var removeNavigationViewItem = GeneralNavigationView.MenuItems.FirstOrDefault(p => (p as FrameworkElement).DataContext == item);
+                        if (removeNavigationViewItem != null)
+                        {
+                            GeneralNavigationView.MenuItems.Remove(removeNavigationViewItem);
+                        }
+                    }
                 }
             }
         }
@@ -89,6 +99,13 @@ namespace RecognitionApp.View
         private void NavigationView_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             ContentFrame.Navigate(typeof(AudioRecordingPage), _viewModel);
+        }
+
+        private async void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            var frameworkElement = sender as FrameworkElement;
+            var recognitionResult = frameworkElement.DataContext as FileRecognition;
+            await _viewModel.DeleteRecognitionResultAsync(recognitionResult);
         }
     }
 }

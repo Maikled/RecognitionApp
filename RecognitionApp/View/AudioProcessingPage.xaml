@@ -45,6 +45,7 @@
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="IsClosable" Value="False"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Width" Value="5000"/>
         </Style>
         <Style x:Key="speakerStackPanel" TargetType="StackPanel">
             <Setter Property="Padding" Value="10"/>
