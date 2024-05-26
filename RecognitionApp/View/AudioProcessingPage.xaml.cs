@@ -76,7 +76,7 @@ namespace RecognitionApp.View
 
         private async void ButtonRepeat_Click(object sender, RoutedEventArgs e)
         {
-            await LoadPageData(ViewModel.FileRecognition);
+            await ViewModel.RunningSpeechProcess();
         }
     }
 }
