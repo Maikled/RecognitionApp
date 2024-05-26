@@ -47,7 +47,7 @@
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         </Style>
         <Style x:Key="speakerStackPanel" TargetType="StackPanel">
-            <Setter Property="Padding" Value="15"/>
+            <Setter Property="Padding" Value="10"/>
             <Setter Property="Spacing" Value="10"/>
             <Setter Property="Background" Value="{ThemeResource LayerOnMicaBaseAltFillColorDefaultBrush}"/>
             <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultSolidBrush}"/>

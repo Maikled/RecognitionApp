@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using RecognitionApp.Model;
-using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -19,21 +18,6 @@ namespace RecognitionApp.ViewModel
             {
                 var fileRecognition = await FileManager.LoadObjectJsonAsync<FileRecognition>(folder);
                 RecognitionResults.Add(fileRecognition);
-            }
-        }
-
-        public async Task DeleteRecognitionResult(FileRecognition fileRecognition)
-        {
-            var localFolder = ApplicationData.Current.LocalFolder;
-            var recognitionResultFolder = await localFolder.GetFolderAsync(fileRecognition.ID.ToString());
-            if(recognitionResultFolder != null)
-            {
-                await recognitionResultFolder.DeleteAsync();
-            }
-
-            if(RecognitionResults.Contains(fileRecognition))
-            {
-                RecognitionResults.Remove(fileRecognition);
             }
         }
     }

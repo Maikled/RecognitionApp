@@ -1,10 +1,8 @@
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using RecognitionApp.Model;
 using RecognitionApp.ViewModel;
 using System;
-using System.Threading.Tasks;
 
 namespace RecognitionApp.View
 {
@@ -14,13 +12,41 @@ namespace RecognitionApp.View
 
         public GeneralPage()
         {
+            _viewModel.RecognitionResults.CollectionChanged += RecognitionResults_CollectionChanged;
             this.Loaded += GeneralPage_Loaded;
+
             this.InitializeComponent();
         }
 
         private async void GeneralPage_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             await _viewModel.LoadLocalFileRecognitionsAsync();
+        }
+
+        private void RecognitionResults_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if(e.NewItems != null)
+            {
+                foreach (var item in e.NewItems)
+                {
+                    if (item is FileRecognition fileRecognition)
+                    {
+                        var newNavigationViewItem = new NavigationViewItem();
+                        newNavigationViewItem.Content = fileRecognition.FileDisplayName;
+                        newNavigationViewItem.Icon = new SymbolIcon(Symbol.OpenFile);
+                        newNavigationViewItem.Tag = item;
+                        GeneralNavigationView.MenuItems.Add(newNavigationViewItem);
+                    }
+                }
+            }
+            
+            if(e.OldItems != null)
+            {
+                foreach (var item in e.OldItems)
+                {
+
+                }
+            }
         }
 
         private void NavigationView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -63,21 +89,6 @@ namespace RecognitionApp.View
         private void NavigationView_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             ContentFrame.Navigate(typeof(AudioRecordingPage), _viewModel);
-        }
-
-        private void Grid_Loaded(object sender, RoutedEventArgs e)
-        {
-            var grid = sender as Grid;
-            grid.PointerPressed += (sender, e) =>
-            {
-                ContentFrame.Navigate(typeof(AudioProcessingPage), grid.DataContext);
-            };
-        }
-
-        private async void DeleteRecognitionResult_Click(object sender, RoutedEventArgs e)
-        {
-            var fileRecognition = (sender as FrameworkElement).DataContext as FileRecognition;
-            await _viewModel.DeleteRecognitionResult(fileRecognition);
         }
     }
 }
