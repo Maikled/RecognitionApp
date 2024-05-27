@@ -20,10 +20,12 @@
         </Style>
         <Style x:Key="fontIconStyle" TargetType="FontIcon">
             <Setter Property="FontSize" Value="70"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
         <Style x:Key="appTitleTextBlock" TargetType="TextBlock">
             <Setter Property="FontSize" Value="50"/>
             <Setter Property="FontFamily" Value="Segoe UI"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
         <Style x:Key="selectorStackPanelStyle" TargetType="StackPanel">
             <Setter Property="Margin" Value="20"/>
@@ -78,7 +80,6 @@
                 <StackPanel Style="{StaticResource recordingStackPanel}">
                     <StackPanel Style="{StaticResource teachingTipStackPanelStyle}">
                         <AppBarButton Icon="Microphone" Label="Записать" Style="{StaticResource recordingAppButtonStyle}" Command="{x:Bind RecordingAudioStartCommand}" x:Name="startRecordingButton" IsEnabled="True"/>
-                        <!--<AppBarButton Icon="Pause" Style="{StaticResource recordingAppButtonStyle}"/>-->
                         <AppBarButton Icon="Stop" Label="Остановить" Style="{StaticResource recordingAppButtonStyle}" Command="{x:Bind RecordingAudioStopCommand}" x:Name="stopRecordingButton" IsEnabled="False"/>
                     </StackPanel>
                     <TextBlock x:Name="recordingTimeTextBlock" HorizontalTextAlignment="Center"/>

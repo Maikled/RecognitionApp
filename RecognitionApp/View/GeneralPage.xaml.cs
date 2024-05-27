@@ -72,7 +72,7 @@ namespace RecognitionApp.View
             }
             else
             {
-                var tag = args.InvokedItemContainer.Tag;
+                var tag = args.InvokedItemContainer?.Tag;
                 var pageTag = tag?.ToString();
                 if (args.InvokedItemContainer != null && !string.IsNullOrWhiteSpace(pageTag))
                 {

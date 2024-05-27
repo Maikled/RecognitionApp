@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -18,7 +19,7 @@ namespace RecognitionApp.Model
 
         public static async Task SaveObjectJsonAsync<T>(T obj, StorageFolder destinationFolder)
         {
-            var jsonObject = JsonSerializer.Serialize(obj);
+            var jsonObject = JsonSerializer.Serialize(obj, GetSerializeOptions());
             var savedFile = await destinationFolder.CreateFileAsync($"{obj.GetType().Name}.json", CreationCollisionOption.ReplaceExisting);
             using (var fileStream = await savedFile.OpenStreamForWriteAsync())
             {
@@ -40,6 +41,11 @@ namespace RecognitionApp.Model
         public static async Task<IEnumerable<StorageFolder>> GetFoldersFileAsync(StorageFolder destinationFolder)
         {
             return await destinationFolder.GetFoldersAsync();
+        }
+
+        private static JsonSerializerOptions GetSerializeOptions()
+        {
+            return new JsonSerializerOptions() { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping, WriteIndented = true };
         }
     }
 }

@@ -113,7 +113,7 @@
                 <ItemsControl x:Name="recognitionResultsItemsControl" ItemsSource="{x:Bind ViewModel.FileRecognition.RecognitionResult.RecognitionResults}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="models:RecognitionResultSpeaker">
-                            <StackPanel Style="{StaticResource speakerStackPanel}" Loaded="StackPanel_Loaded">
+                            <StackPanel Style="{StaticResource speakerStackPanel}">
                                 <StackPanel Style="{StaticResource speakerInfoStackPanelStyle}">
                                     <TextBlock Text="{Binding Speaker}" Style="{ThemeResource BodyStrongTextBlockStyle}"/>
                                     <StackPanel Orientation="Horizontal" Spacing="5">

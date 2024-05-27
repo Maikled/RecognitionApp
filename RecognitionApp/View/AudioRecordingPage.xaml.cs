@@ -104,10 +104,12 @@ namespace RecognitionApp.View
 
                 var savedStorageFile = await FileManager.SaveAudioFileAsync(storageFile, saveStorageFileFolder);
 
+                await savedStorageFile.RenameAsync(fileId.ToString() + savedStorageFile.FileType);
+
                 var fileRecognition = new FileRecognition();
                 fileRecognition.ID = fileId;
                 fileRecognition.FileName = savedStorageFile.Name;
-                fileRecognition.FileDisplayName = savedStorageFile.DisplayName;
+                fileRecognition.FileDisplayName = storageFile.DisplayName;
                 fileRecognition.LocalFilePath = savedStorageFile.Path;
                 fileRecognition.FileProcessingState = FileProcessingState.Created;
                 fileRecognition.FileCreate = DateTime.Now;

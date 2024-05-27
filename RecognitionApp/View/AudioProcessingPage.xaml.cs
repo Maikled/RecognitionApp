@@ -69,11 +69,6 @@ namespace RecognitionApp.View
             audioPlayer.Source = mediaSource;
         }
 
-        private void StackPanel_Loaded(object sender, RoutedEventArgs e)
-        {
-            (sender as StackPanel).Translation += new System.Numerics.Vector3(0, 0, 16);
-        }
-
         private async void ButtonRepeat_Click(object sender, RoutedEventArgs e)
         {
             await ViewModel.RunningSpeechProcess();
