@@ -9,7 +9,7 @@
       <Value Profile="(Default)">Russian</Value>
     </Setting>
     <Setting Name="ServerAddress" Type="System.String" Scope="User">
-      <Value Profile="(Default)">localhost:7000</Value>
+      <Value Profile="(Default)">10.0.0.2:7000</Value>
     </Setting>
   </Settings>
 </SettingsFile>

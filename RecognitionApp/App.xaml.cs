@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Xaml;
 using RecognitionApp.Model.Enums;
 using System;
+using System.Net;
 
 
 namespace RecognitionApp
@@ -19,6 +20,7 @@ namespace RecognitionApp
         public App()
         {
             this.InitializeComponent();
+            ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls13 | SecurityProtocolType.Tls;
         }
 
         /// <summary>
