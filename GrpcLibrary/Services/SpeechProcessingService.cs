@@ -11,7 +11,11 @@ namespace GrpcLibrary.Services
 
         public SpeechProcessingService(string serviceAddress)
         {
-            _channel = GrpcChannel.ForAddress(serviceAddress);
+            var handler = new HttpClientHandler();
+            handler.ServerCertificateCustomValidationCallback =
+                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+
+            _channel = GrpcChannel.ForAddress(serviceAddress, new GrpcChannelOptions() { HttpHandler = handler});
         }
 
         public async Task<Response> ProcessingAudioAsync(Stream stream, Guid fileId, string fileName, string fileLanguage)

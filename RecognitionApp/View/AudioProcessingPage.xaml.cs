@@ -55,11 +55,16 @@ namespace RecognitionApp.View
             ViewModel.FileProcessingStateChanged += _viewModel_FileProcessingStateChanged;
 
             SetMediaSource(fileRecognition);
+            await RunRecognitionProcess();
+        }
+
+        private async Task RunRecognitionProcess()
+        {
             await ViewModel.RunningSpeechProcess();
 
-            if (fileRecognition.RecognitionResult != null)
+            if (ViewModel.FileRecognition.RecognitionResult != null)
             {
-                recognitionResultsItemsControl.ItemsSource = fileRecognition.RecognitionResult.RecognitionResults;
+                recognitionResultsItemsControl.ItemsSource = ViewModel.FileRecognition.RecognitionResult.RecognitionResults;
             }
         }
 
@@ -71,7 +76,7 @@ namespace RecognitionApp.View
 
         private async void ButtonRepeat_Click(object sender, RoutedEventArgs e)
         {
-            await ViewModel.RunningSpeechProcess();
+            await RunRecognitionProcess();
         }
     }
 }
