@@ -14,7 +14,11 @@ namespace RecognitionApp.Model.Converters
 
             using (var mp3Reader = new Mp3FileReader(storageFile.Path))
             {
-                WaveFileWriter.CreateWaveFile(convertedFilePath, mp3Reader);
+                var format = new WaveFormat(32000, 16, 1);
+                using(var stream = new WaveFormatConversionStream(format, mp3Reader))
+                {
+                    WaveFileWriter.CreateWaveFile(convertedFilePath, stream);
+                }
             }
 
             return await StorageFile.GetFileFromPathAsync(convertedFilePath);

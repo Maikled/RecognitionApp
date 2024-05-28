@@ -61,7 +61,7 @@ namespace RecognitionApp.View
             if(_waveIn == null)
             {
                 _waveIn = new WaveIn();
-                _waveIn.WaveFormat = new WaveFormat(16000, 2);
+                _waveIn.WaveFormat = new WaveFormat(16000, 16, 1);
                 _waveIn.DataAvailable += _waveIn_DataAvailable;
             }
 
