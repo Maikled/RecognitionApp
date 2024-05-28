@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using NAudio.Wave;
 using RecognitionApp.Model;
+using RecognitionApp.Model.Converters;
 using RecognitionApp.Model.Enums;
 using RecognitionApp.ViewModel;
 using System;
@@ -37,6 +38,11 @@ namespace RecognitionApp.View
         public async Task OpenAudioFile()
         {
             var audioFile = await _viewModel.SelectAudioFileAsync();
+            if(audioFile.FileType == ".mp3")
+            {
+                audioFile = await AudioConverter.ConvertMp3ToWav(audioFile);
+            }
+
             AddFileRecognition(audioFile);
         }
 
@@ -109,7 +115,7 @@ namespace RecognitionApp.View
                 var fileRecognition = new FileRecognition();
                 fileRecognition.ID = fileId;
                 fileRecognition.FileName = savedStorageFile.Name;
-                fileRecognition.FileDisplayName = storageFile.DisplayName;
+                fileRecognition.FileDisplayName = Path.GetFileNameWithoutExtension(storageFile.DisplayName);
                 fileRecognition.LocalFilePath = savedStorageFile.Path;
                 fileRecognition.FileProcessingState = FileProcessingState.Created;
                 fileRecognition.FileCreate = DateTime.Now;
